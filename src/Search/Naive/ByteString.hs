@@ -16,7 +16,6 @@ find :: Corpus -> Pattern -> [Int]
 find c p = let (_, _, _, is) = BS.foldl' match (0, 0, Nothing, []) c
             in reverse is
     where pl = BS.length p - 1
-          match :: (Int, Int, Maybe Int, [Int]) -> Word8 -> (Int, Int, Maybe Int, [Int])
           match (ci, pi, Nothing, is) cv
             | BS.index p pi == cv = case compare pi pl of
                                         LT -> (ci + 1, pi + 1, Just ci, is)
