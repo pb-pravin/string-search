@@ -4,12 +4,10 @@ module Search.Naive.String
     , contains
     ) where
 
-import           Data.Int
-
 type Corpus  = String
 type Pattern = String
 
-find :: Corpus -> Pattern -> [Int64]
+find :: Corpus -> Pattern -> [Int]
 find = find' 0 []
     where find' _ is [] _ = reverse is
           find' n is c  p = if match c p then find' (n + 1) (n:is) (tail c) p
@@ -18,7 +16,7 @@ find = find' 0 []
                               | otherwise = False
           match _      _                  = True
 
-findOne :: Corpus -> Pattern -> Maybe Int64
+findOne :: Corpus -> Pattern -> Maybe Int
 findOne c p = case take 1 (find c p) of []    -> Nothing
                                         (i:_) -> Just i
 
