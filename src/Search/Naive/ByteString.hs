@@ -4,18 +4,31 @@ module Search.Naive.ByteString
     , contains
     ) where
 
-import           Data.ByteString (ByteString)
-import qualified Data.ByteString as BS
+import           Data.ByteString        (ByteString)
+import qualified Data.ByteString        as BS
+import qualified Data.ByteString.Unsafe as BS
+import           Data.Word
 
 type Corpus  = ByteString
 type Pattern = ByteString
 
 find :: Corpus -> Pattern -> [Int]
-find c p = find' c p 0 []
-    where find' c p i is | BS.length c > 0 = if (BS.take (BS.length p) c) == p
-                                                then find' (BS.tail c) p (i + 1) (i:is)
-                                                else find' (BS.tail c) p (i + 1) is
-                         | otherwise       = reverse is
+find c p = let (_, _, _, is) = BS.foldl' match (0, 0, Nothing, []) c
+            in reverse is
+    where pl = BS.length p - 1
+          match :: (Int, Int, Maybe Int, [Int]) -> Word8 -> (Int, Int, Maybe Int, [Int])
+          match (ci, pi, Nothing, is) cv
+            | BS.index p pi == cv = case compare pi pl of
+                                        LT -> (ci + 1, pi + 1, Just ci, is)
+                                        EQ -> undefined
+                                        GT -> undefined
+            | otherwise           = (ci + 1, 0, Nothing, is)
+          match (ci, pi,  Just i, is) cv
+            | BS.index p pi == cv = case compare pi pl of
+                                        LT -> (ci + 1, pi + 1,  Just i,   is)
+                                        EQ -> (ci + 1,      0, Nothing, i:is)
+                                        GT -> undefined
+            | otherwise           = (ci + 1, 0, Nothing, is)
 
 findOne :: Corpus -> Pattern -> Maybe Int
 findOne c p = case take 1 (find c p) of []    -> Nothing
