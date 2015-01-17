@@ -17,9 +17,11 @@ library
 
     exposed-modules:    Search.Naive.String
                     ,   Search.Naive.ByteString
+                    ,   Search.Naive.Text
 
     build-depends:      base            >=4.7   && <4.8
                     ,   bytestring      >=0.10  && <0.11
+                    ,   text            >=1.2   && <1.3
 
 executable bench
     main-is:            Main.hs
@@ -29,6 +31,7 @@ executable bench
     build-depends:      base            >=4.7   && <4.8
                     ,   criterion       >=1.0   && <1.1
                     ,   bytestring      >=0.10  && <0.11
+                    ,   text            >=1.2   && <1.3
 
                     ,   string-search
 
@@ -39,5 +42,6 @@ executable test
 
     build-depends:      base            >=4.7   && <4.8
                     ,   bytestring      >=0.10  && <0.11
+                    ,   text            >=1.2   && <1.3
 
                     ,   string-search
