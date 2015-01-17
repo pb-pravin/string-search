@@ -11,15 +11,17 @@ import qualified Search.Naive.String     as String
 
 main :: IO ()
 main = defaultMain
-        [ env (createEnv "texts/tomsawyer.txt") $ \(s, bs) ->
-            bgroup "Tom Sayer (412k)"
-                [ bench "String"     $ whnf (\p -> String.find s p) "Hello"
-                , bench "ByteString" $ whnf (\p -> ByteString.find bs p) "Hello"
+        [ env (createEnv "texts/huckfinn.txt") $ \(s, _) ->
+            bgroup "String"
+                [ bench "find"     $ whnf (String.find s) "Huck Finn"
+                , bench "findOne"  $ whnf (String.findOne s) "Huck Finn"
+                , bench "contains" $ whnf (String.contains s) "Huck Finn"
                 ]
-        , env (createEnv "texts/huckfinn.txt") $ \(s, bs) ->
-            bgroup "Huck Finn (596k)"
-                [ bench "String"     $ whnf (\p -> String.find s p) "Hello"
-                , bench "ByteString" $ whnf (\p -> ByteString.find bs p) "Hello"
+        , env (createEnv "texts/huckfinn.txt") $ \(_, bs) ->
+            bgroup "ByteString"
+                [ bench "find"     $ whnf (ByteString.find bs) "Huck Finn"
+                , bench "findOne"  $ whnf (ByteString.findOne bs) "Huck Finn"
+                , bench "contains" $ whnf (ByteString.contains bs) "Huck Finn"
                 ]
         ]
 

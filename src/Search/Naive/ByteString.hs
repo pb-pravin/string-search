@@ -4,10 +4,9 @@ module Search.Naive.ByteString
     , contains
     ) where
 
-import           Data.ByteString        (ByteString)
-import qualified Data.ByteString        as BS
-import qualified Data.ByteString.Unsafe as BS
-import           Data.Word
+import           Data.ByteString (ByteString)
+import qualified Data.ByteString as BS
+import           Prelude         hiding (pi)
 
 type Corpus  = ByteString
 type Pattern = ByteString

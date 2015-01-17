@@ -12,10 +12,10 @@ main = do
         s  <- readFile "texts/huckfinn.txt"
         bs <- BS.readFile "texts/huckfinn.txt"
 
-        let sres = String.find s "HUCK FINN"
+        let sres = String.find s "Huck Finn"
         putStrLn $ "Count:   " ++ show (length sres)
         putStrLn $ "Entries: " ++ show sres
 
-        let bres = ByteString.find bs "HUCK FINN"
+        let bres = ByteString.find bs "Huck Finn"
         putStrLn $ "Count:   " ++ show (length bres)
         putStrLn $ "Entries: " ++ show bres
